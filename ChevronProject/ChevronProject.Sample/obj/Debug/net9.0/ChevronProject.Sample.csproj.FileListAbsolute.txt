@@ -1,0 +1,5 @@
+/Users/meetpatel/Documents/CMU/Sem 4/Capstone/chevron-project/ChevronProject/ChevronProject.Sample/obj/Debug/net9.0/ChevronProject.Sample.GeneratedMSBuildEditorConfig.editorconfig
+/Users/meetpatel/Documents/CMU/Sem 4/Capstone/chevron-project/ChevronProject/ChevronProject.Sample/obj/Debug/net9.0/ChevronProject.Sample.AssemblyInfoInputs.cache
+/Users/meetpatel/Documents/CMU/Sem 4/Capstone/chevron-project/ChevronProject/ChevronProject.Sample/obj/Debug/net9.0/ChevronProject.Sample.AssemblyInfo.cs
+/Users/meetpatel/Documents/CMU/Sem 4/Capstone/chevron-project/ChevronProject/ChevronProject.Sample/obj/Debug/net9.0/ChevronProject.Sample.csproj.CoreCompileInputs.cache
+/Users/meetpatel/Documents/CMU/Sem 4/Capstone/chevron-project/ChevronProject/ChevronProject.Sample/obj/Debug/net9.0/ChevronProject.Sample.sourcelink.json
