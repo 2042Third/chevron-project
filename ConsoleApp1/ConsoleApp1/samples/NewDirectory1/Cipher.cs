@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-public class CryptoExample
+public class CryptoExample2
 {
     public static void Run()
     {

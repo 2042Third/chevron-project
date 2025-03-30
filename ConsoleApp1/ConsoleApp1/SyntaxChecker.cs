@@ -55,23 +55,4 @@ public class SyntaxChecker
         }
     }
     
-    public bool IsAesType(ExpressionSyntax expression)
-    {
-        // Check for simple identifier 'Aes'
-        if (expression is IdentifierNameSyntax identifierName)
-        {
-            return identifierName.Identifier.Text == "Aes";
-        }
-        // Check for qualified name like 'System.Security.Cryptography.Aes'
-        else if (expression is QualifiedNameSyntax qualifiedName)
-        {
-            return qualifiedName.ToString() == "System.Security.Cryptography.Aes"; // Simplest check, might need refinement
-        }
-        // Check for generic name like 'Aes<T>' (though Aes itself is not generic, for broader type checking)
-        else if (expression is GenericNameSyntax genericName)
-        {
-            return genericName.Identifier.Text == "Aes";
-        }
-        return false; // Not an Aes type (or a type we can easily identify as Aes in this simple check)
-    }
 }
