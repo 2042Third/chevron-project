@@ -8,6 +8,15 @@ public class SyntaxChecker
    
     private Dictionary<string, int> createCounts = new Dictionary<string, int>();
     private HashSet<string> algo_set = new HashSet<string>{"Aes", "RSA"};
+    private HashSet<string> algo_methods = new HashSet<string> {"Clear", "Create", "Decrypt", "DecryptValue", "Encrypt", "EncryptValue", "ExportParameters", 
+        "ExportRSAPrivateKey", "ExportRSAPrivateKeyPem", "ExportRSAPublicKey", "ExportRSAPublicKeyPem", 
+        "FromXmlString", "GetMaxOutputSize", "HashData", "ImportEncryptedPkcs8PrivateKey", 
+        "ImportFromEncryptedPem", "ImportFromPem", "ImportParameters", "ImportPkcs8PrivateKey", 
+        "ImportRSAPrivateKey", "ImportRSAPublicKey", "ImportSubjectPublicKeyInfo", "SignData", 
+        "SignHash", "ToXmlString", "TryDecrypt", "TryEncrypt", "TryExportEncryptedPkcs8PrivateKey", 
+        "TryExportPkcs8PrivateKey", "TryExportRSAPrivateKey", "TryExportRSAPrivateKeyPem", 
+        "TryExportRSAPublicKey", "TryExportRSAPublicKeyPem", "TryExportSubjectPublicKeyInfo", 
+        "TryHashData", "TrySignData", "TrySignHash", "VerifyData", "VerifyHash"};
 
     public SyntaxChecker()
     {
@@ -17,8 +26,13 @@ public class SyntaxChecker
             createCounts["System.Security.Cryptography."+algo] = 0;
         }
     }
-    
-    public void UpdateCreateCounts(ExpressionSyntax expression)
+
+    public void UpdateMethodCounts()
+    {
+        
+    }
+
+    public void UpdateClassCounts(ExpressionSyntax expression)
     {
         // Check for simple identifier 'Aes'
         if (expression is IdentifierNameSyntax identifierName )
@@ -46,7 +60,7 @@ public class SyntaxChecker
         }
     }
     
-    public void PrintCreateCounts()
+    public void PrintCounts()
     {
         foreach (var algo in algo_set)
         {
