@@ -14,13 +14,13 @@ string fileContent = null;
 // Use the first argument as the directory if provided; otherwise, default to the current directory.
 string initialDirectory = args.Length > 0 ? args[0] : Environment.CurrentDirectory;
 
-Action<string> onFileFound = (a) => {
-    Console.WriteLine(a);
+Action<string, string, string> onFileFound = (fullPath, fileName, filePath) => {
+    Console.WriteLine(fullPath);
     
     try
     {
-        fileContent = File.ReadAllText(a);
-        Console.WriteLine($"Successfully read file from: {a}");
+        fileContent = File.ReadAllText(fullPath);
+        Console.WriteLine($"Successfully read file from: {fullPath}");
         // You can now use the 'fileContent' string
         // For example, print the first few lines:
         // string[] lines = fileContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -50,32 +50,7 @@ Action<string> onFileFound = (a) => {
         Console.WriteLine($"Path: {filePath}");
     }
 
-    if (fileContent != null)
-    {
-        SyntaxTree tree = CSharpSyntaxTree.ParseText(fileContent);
-        CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
-
-        foreach (var node in root.DescendantNodes())
-        {
-            if (node is InvocationExpressionSyntax invocation)
-            {
-                // Check for method calls like Class.Create()
-                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
-                {
-                    // Check if the method name is "Create"
-                    if (memberAccess.Name.Identifier.Text == "Create")
-                    {
-                        syntaxChecker.UpdateClassCounts(memberAccess.Expression);
-                        // // Check if the type before ".Create" is Aes
-                        // if (syntaxChecker.IsAesType(memberAccess.Expression))
-                        // {
-                        //     Console.WriteLine($"Aes.Create() Call Detected: Full Node - {invocation}");
-                        // }
-                    }
-                }
-            }
-        }
-    }
+    syntaxChecker.ParseContent(fileContent, fileName, fullPath);
 };
 
 // Create an instance of FileSearcher.
@@ -84,9 +59,9 @@ FileSearcher fileSearcher = new FileSearcher(initialDirectory, onFileFound);
 // Execute the search and print found .cs file paths.
 fileSearcher.PrintCsFiles();
 
+syntaxChecker.PrintReport();
 
 
-syntaxChecker.PrintCounts();
-
-// CryptoExample.Run();
+// Access the records for custom processing
+List<AlgoRecord> records = syntaxChecker.Records;
 

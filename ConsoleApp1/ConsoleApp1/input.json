@@ -1,0 +1,40 @@
+{
+  "RSA": [
+    "Clear", "Create", "Decrypt", "DecryptValue", "Encrypt", "EncryptValue",
+    "ExportParameters", "ExportRSAPrivateKey", "ExportRSAPrivateKeyPem",
+    "ExportRSAPublicKey", "ExportRSAPublicKeyPem", "FromXmlString",
+    "GetMaxOutputSize", "HashData", "ImportEncryptedPkcs8PrivateKey",
+    "ImportFromEncryptedPem", "ImportFromPem", "ImportParameters",
+    "ImportPkcs8PrivateKey", "ImportRSAPrivateKey", "ImportRSAPublicKey",
+    "ImportSubjectPublicKeyInfo", "SignData", "SignHash", "ToXmlString",
+    "TryDecrypt", "TryEncrypt", "TryExportEncryptedPkcs8PrivateKey",
+    "TryExportPkcs8PrivateKey", "TryExportRSAPrivateKey", "TryExportRSAPrivateKeyPem",
+    "TryExportRSAPublicKey", "TryExportRSAPublicKeyPem", "TryExportSubjectPublicKeyInfo",
+    "TryHashData", "TrySignData", "TrySignHash", "VerifyData", "VerifyHash"
+  ],
+  "RSACng": [],
+  "RSACryptoServiceProvider": [
+    "ExportCspBlob", "ImportCspBlob"
+  ],
+  "RSAEncryptionPadding": [
+    "CreateOaep", "Equals", "GetHashCode", "ToString"
+  ],
+  "RSAOAEPKeyExchangeDeformatter": [
+    "DecryptKeyExchange", "SetKey"
+  ],
+  "RSAOAEPKeyExchangeFormatter": [
+    "CreateKeyExchange"
+  ],
+  "RSAOpenSsl": [
+    "DuplicateKeyHandle"
+  ],
+  "RSAParameters": [],
+  "RSAPKCS1KeyExchangeDeformatter": [],
+  "RSAPKCS1SignatureDeformatter": [
+    "SetHashAlgorithm", "VerifySignature"
+  ],
+  "RSAPKCS1SignatureFormatter": [
+    "CreateSignature"
+  ],
+  "RSASignaturePaddingMode": []
+}

@@ -3,10 +3,10 @@ namespace ConsoleApp1;
 public class FileSearcher
 {
     private readonly string _initialPath;
-    private Action<string> onFileFound;
+    private Action<string, string, string> onFileFound;
 
     // Constructor that takes the initial directory path.
-    public FileSearcher(string path, Action<string> onFileFoundIn = null)
+    public FileSearcher(string path, Action<string, string, string> onFileFoundIn = null)
     {
         // Validate that the provided path is not null or empty.
         if (string.IsNullOrWhiteSpace(path))
@@ -34,7 +34,7 @@ public class FileSearcher
             foreach (string file in Directory.EnumerateFiles(_initialPath, "*.cs", SearchOption.AllDirectories))
             {
                 // If a callback function is provided, call it with the file path.
-                onFileFound?.Invoke(Path.GetFullPath(file));
+                onFileFound?.Invoke(Path.GetFullPath(file), Path.GetFileName(file), Path.GetFileName(file));
             }
         }
         catch (UnauthorizedAccessException uaEx)
