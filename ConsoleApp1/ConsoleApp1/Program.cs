@@ -15,19 +15,12 @@ string fileContent = null;
 string initialDirectory = args.Length > 0 ? args[0] : Environment.CurrentDirectory;
 
 Action<string, string, string> onFileFound = (fullPath, fileName, filePath) => {
-    Console.WriteLine(fullPath);
+    // Console.WriteLine(fullPath);
     
     try
     {
         fileContent = File.ReadAllText(fullPath);
         Console.WriteLine($"Successfully read file from: {fullPath}");
-        // You can now use the 'fileContent' string
-        // For example, print the first few lines:
-        // string[] lines = fileContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        // for (int i = 0; i < Math.Min(5, lines.Length); i++)
-        // {
-        //     Console.WriteLine(lines[i]);
-        // }
     }
     catch (FileNotFoundException)
     {
