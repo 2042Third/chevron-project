@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,7 +17,7 @@ public class SyntaxChecker
     private List<AlgoRecord> records;
     private string currentFileName;
     private string currentFilePath;
-
+    
     public SyntaxChecker()
     {
         classMethodMap = new Dictionary<string, HashSet<string>>();
@@ -121,27 +122,27 @@ public class SyntaxChecker
                 string qualifiedClassName = ExtractClassName(qualifiedName);
                 CheckAndAddRecord(qualifiedClassName, methodName, invocation);
             }
-            // Instance method call on a variable (var.Method())
-            else
-            {
-                // For instance method calls, we need semantic model to determine the type
-                // For now, we'll just check if the method is in our known cryptographic methods
-                foreach (var classEntry in classMethodMap)
-                {
-                    if (classEntry.Value.Contains(methodName))
-                    {
-                        int lineNumber = invocation.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
-                        records.Add(new AlgoRecord(
-                            "Unknown", // Can't determine class without semantic model
-                            methodName,
-                            currentFileName,
-                            currentFilePath,
-                            lineNumber
-                        ));
-                        break;
-                    }
-                }
-            }
+            // // Instance method call on a variable (var.Method())
+            // else
+            // {
+            //     // For instance method calls, we need semantic model to determine the type
+            //     // For now, we'll just check if the method is in our known cryptographic methods
+            //     foreach (var classEntry in classMethodMap)
+            //     {
+            //         if (classEntry.Value.Contains(methodName))
+            //         {
+            //             int lineNumber = invocation.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
+            //             records.Add(new AlgoRecord(
+            //                 "Unknown", // Can't determine class without semantic model
+            //                 methodName,
+            //                 currentFileName,
+            //                 currentFilePath,
+            //                 lineNumber
+            //             ));
+            //             break;
+            //         }
+            //     }
+            // }
         }
     }
 
@@ -267,10 +268,67 @@ public class SyntaxChecker
             
             foreach (var record in group)
             {
-                Console.WriteLine($"  - {record.FileName}:{record.LineNumber}");
+                Console.WriteLine($"  - {record.FilePath}:{record.LineNumber}");
             }
         }
         
         Console.WriteLine($"\nTotal instances found: {records.Count}");
+    }
+    
+    // Method to export records to CSV
+    public void ExportToCsv(string filePathIn = "output.csv")
+    {
+        if (records == null || records.Count == 0)
+        {
+            Console.WriteLine("No records to export.");
+            return;
+        }
+        
+        try
+        {
+            // Create StringBuilder for building CSV content
+            StringBuilder csvContent = new StringBuilder();
+            
+            // Add header row
+            csvContent.AppendLine("Name,Method,FileName,FilePath,LineNumber");
+            
+            // Add data rows
+            foreach (var record in records)
+            {
+                // Escape fields that might contain commas
+                string name = EscapeCsvField(record.Name);
+                string method = EscapeCsvField(record.Method);
+                string fileName = EscapeCsvField(record.FileName);
+                string filePath = EscapeCsvField(record.FilePath);
+                
+                csvContent.AppendLine($"{name},{method},{fileName},{filePath},{record.LineNumber}");
+            }
+            
+            // Write to file
+            File.WriteAllText(filePathIn, csvContent.ToString());
+            
+            Console.WriteLine($"CSV file successfully created at: {Path.GetFullPath(filePathIn)}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error exporting to CSV: {ex.Message}");
+        }
+    }
+
+    // Helper method to escape CSV fields
+    private string EscapeCsvField(string field)
+    {
+        if (string.IsNullOrEmpty(field))
+            return string.Empty;
+            
+        // If the field contains commas, quotes, or newlines, wrap it in quotes
+        if (field.Contains(",") || field.Contains("\"") || field.Contains("\n"))
+        {
+            // Replace any double quotes with two double quotes
+            field = field.Replace("\"", "\"\"");
+            return $"\"{field}\"";
+        }
+        
+        return field;
     }
 }

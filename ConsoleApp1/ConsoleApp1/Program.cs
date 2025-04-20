@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics;
 using ConsoleApp1;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -46,14 +47,26 @@ Action<string, string, string> onFileFound = (fullPath, fileName, filePath) => {
     syntaxChecker.ParseContent(fileContent, fileName, fullPath);
 };
 
+
+Stopwatch stopwatch = Stopwatch.StartNew();
+
 // Create an instance of FileSearcher.
 FileSearcher fileSearcher = new FileSearcher(initialDirectory, onFileFound);
+
+stopwatch.Stop();
+
 
 // Execute the search and print found .cs file paths.
 fileSearcher.PrintCsFiles();
 
-syntaxChecker.PrintReport();
 
+syntaxChecker.PrintReport(); 
+fileSearcher.PrintSearchStatistics();
+Console.WriteLine($"Time taken: {stopwatch.Elapsed}");
+
+Console.WriteLine("");
+
+syntaxChecker.ExportToCsv();
 
 // Access the records for custom processing
 List<AlgoRecord> records = syntaxChecker.Records;
